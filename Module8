@@ -1,0 +1,30 @@
+require(pryr)
+require(ISLR)
+require(boot)
+library(data.table)
+library(plyr)
+
+Student.Data <- read.table("C:/Users/jarod/Desktop/Assignment 6 Dataset.txt", 
+                           header = TRUE, sep = ",")
+StudentAverage <- ddply(Student.Data,"Sex",transform,Grade.Average=mean(Grade))
+StudentAverage
+
+sex <- Student.Data$Sex
+sex <- as.numeric(sex, na.rm = TRUE)
+sex
+mean(sex)
+
+sex.meanGrade <- ddply(Student.Data, "Sex", summarize, Grade_Mean = mean(Grade))
+sex.meanGrade
+
+sex.meanAge <- ddply(Student.Data, "Sex", summarize, Age_Mean = mean(Age))
+sex.meanAge
+
+Students_gendered_mean <- StudentAverage
+write.table(students_gendered_mean, "Students_Gendered_Mean", sep = ",")
+
+i_students <- subset(Student.Data, grepl("i", Student.Data$Name, ignore.case=T))
+i_students
+
+new_file <- file.choose()
+write.csv(i_students, file = new_file, header = TRUE, sep = ",")
